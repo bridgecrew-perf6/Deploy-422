@@ -1,0 +1,48 @@
+version : '3.8'
+
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: REDIS
+
+  db1:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres_db
+
+  deploy_app:
+    build: .     # location of Dockerfile is in '.' current dir
+    volumes:
+      - .:/DOCKER_APP   #COPY . .  # copy django_project to DOCKER_APP folder    # computer dir : container dir
+    ports:
+      -  8999:8888      #container : computer   #http://localhost:8999/home/      
+    image:  deploy_app:DOCKER_APP   # image name: root folder name & TAG name        # cd /     # root dir in python os is DOCKER_APP
+    container_name: DEPLOY4
+    command: python3 manage.py runserver 0.0.0.0:8888
+    depends_on:
+      - db1
+    
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A django_project worker -l INFO
+    volumes:
+      - .:/DOCKER_APP
+    container_name: CELERY
+    depends_on:
+      - db1
+      - redis
+      - deploy_app
+  
+  
+
+
+
+

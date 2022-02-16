@@ -1,0 +1,36 @@
+what is diff b/w docker-compose & Dockerfile ?
+
+---------------------------------------------Dockerfile--------.dockerignore
+python3 -m venv VENV
+source VENV/bin/activate
+
+pip freeze > req.txt
+
+create Dockerfile
+
+create .dockerignore file
+
+run given commands in terminal
+docker build --tag deploy1 .
+docker run --publish 8999:8888 --name DEPLOYE1 deploy1
+docker run -it --publish 8999:8888 --name DEPLOYE1 deploy1
+docker run --publish 8999[container]:8888[computer] deploy1
+
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
+
+http://127.0.0.1:8999/
+http://localhost:8999/
+http://0.0.0.0:8999/
+
+
+(VENV) kasparmar@LM-MAA-40527692 django_project1 % docker exec -it DEPLOYE1 bash
+root@df1aa590230f:/DOCKER_APP# ls
+Dockerfile  blog  db.sqlite3  django_project  manage.py  media  req.txt  requirements.txt  static  templates  users
+root@df1aa590230f:/DOCKER_APP# 
+-------------------------------------------------------Dockerfile----docker-compose.yml----.dockerignore----
+don't leave SPACE after before : in  docker-compose file
+docker-compose build
+# docker-compose run --rm deploy_app django-admin startproject django_project . 
+docker exec -it DEPLOY2 bash
+OR
+docker exec -it DEPLOY2 /bin/bash 

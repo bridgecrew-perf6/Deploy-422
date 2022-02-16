@@ -1,0 +1,47 @@
+version : '3.8'
+
+services:
+  deploy_app:
+    build: .     # location of Dockerfile is in '.' current dir
+    volumes:
+      - .:/DOCKER_APP   #COPY . .  # copy django_project to DOCKER_APP folder    # computer dir : container dir
+    ports:
+      -  8999:8888      #container : computer   #http://localhost:8999/home/      
+    image:  deploy_app:DOCKER_APP   # image name: root folder name & TAG name        # cd /     # root dir in python os is DOCKER_APP
+    container_name: DEPLOY3
+    command: python3 manage.py runserver 0.0.0.0:8888
+    depends_on:
+      - db1
+      - db2
+  
+  db1:
+    # image: postgres
+    # volumes:
+    #   - ./data/db:/var/lib/postgresql/data
+    # environment:
+    #   - POSTGRES_DB=postgres
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres
+    # container_name: postgres_db
+
+    image: mysql:5.6        #use python 3.8 version to use mysql,
+    volumes:
+      - ./data/mysql/database:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=sys
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    container_name: mysql_db
+
+  db2:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres_db
+
+
+
+

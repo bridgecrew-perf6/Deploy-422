@@ -1,0 +1,7 @@
+ */.gitignore
+ */.pydevproject
+ */docker-compose.yml
+ */Dockerfile
+ */django_project1
+ */VENV
+ */README
